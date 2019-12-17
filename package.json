@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/BogDAAAMN/social-security-tool/issues"
   },
-  "homepage": "https://github.com/BogDAAAMN/social-security-tool#readme",
+  "homepage": ".",
   "dependencies": {
     "moment": "2.24.0",
     "node-sass": "4.12.0",
