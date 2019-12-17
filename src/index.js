@@ -17,7 +17,6 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 // styles for this kit
 import "./assets/css/bootstrap.min.css";
@@ -29,14 +28,6 @@ import SocialSecurityTool from "./views/SocialSecurityTool.js";
 
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Switch>
-            <Switch>
-                <Route path="/tool" render={props => <SocialSecurityTool {...props} />} />
-                <Redirect to="/tool" />
-                <Redirect from="/" to="/tool" />
-            </Switch>
-        </Switch>
-    </BrowserRouter>,
+    <SocialSecurityTool/>,
     document.getElementById("root")
 );
