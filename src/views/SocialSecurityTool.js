@@ -36,7 +36,7 @@ class SocialSecurityTool extends React.Component {
             workplaces: [{
                 location: "Netherlands",
                 employment: "Employee",
-                hours: ""
+                hours: "40"
             }]
         };
 
@@ -63,7 +63,7 @@ class SocialSecurityTool extends React.Component {
             workplaces: this.state.workplaces.concat([{
                 location: "Netherlands",
                 employment: "Employee",
-                hours: ""
+                hours: "40"
             }])
         });
     };
@@ -132,14 +132,24 @@ class SocialSecurityTool extends React.Component {
 
     render() {
         return (
-            <div className="page-header clear-filter" filter-color="blue">
+            <div className="page-header clear-filter" filter-color="orange">
                 <div className="content mt-5">
                     <Container>
                         <Col className="ml-auto mr-auto" md="6">
                             <Card className="pl-3 pr-3">
                                 <Form onSubmit={this.handleSubmit} className="form" method="">
                                     <CardHeader className="text-center">
-
+                                        <div className="logo-container">
+                                            <a
+                                                href="https://www.maastrichtuniversity.nl/about-um/faculties/law/research/law-and-tech-lab"
+                                                target="_blank"
+                                            >
+                                                <img
+                                                    alt="Maastricht Law and Tech Lab logo"
+                                                    src={require("../assets/img/lab.jpg")}
+                                                />
+                                            </a>
+                                        </div>
                                     </CardHeader>
 
                                     <CardBody>
@@ -156,10 +166,14 @@ class SocialSecurityTool extends React.Component {
                                                 </button>
                                             </div>
                                             <div className="modal-body">
-                                                <p>{this.state.result}</p>
+                                                <p>
+                                                    {this.state.result}{" "}
+                                                    More information about the social security system can be found at{" "}
+                                                    <a href="https://www.grensinfo.nl/gip/nl/index.jsp" target="_blank">Grensinfopunt</a>.
+                                                </p>
                                             </div>
                                             <div className="modal-footer">
-                                                <Button color="secondary"  type="button" onClick={this.toggleModal}>
+                                                <Button color="secondary"  type="button" color="primary" onClick={this.toggleModal}>
                                                     Close
                                                 </Button>
                                             </div>
@@ -249,7 +263,7 @@ class SocialSecurityTool extends React.Component {
                                                             <Input
                                                                 name="hours"
                                                                 onChange={this.handleWorkplaceChange(idx)}
-                                                                placeholder={`#${idx + 1}`}
+                                                                placeholder={`eg: 40`}
                                                                 type="number"
                                                             />
                                                         </div>
@@ -263,7 +277,7 @@ class SocialSecurityTool extends React.Component {
                                         <Button
                                             block
                                             className="btn-round"
-                                            color="info"
+                                            color="primary"
                                             type="submit"
                                             size="lg"
                                         >
@@ -275,7 +289,7 @@ class SocialSecurityTool extends React.Component {
                         </Col>
                     </Container>
                 </div>
-                {/*<TransparentFooter />*/}
+                <TransparentFooter />
             </div>
         );
     }

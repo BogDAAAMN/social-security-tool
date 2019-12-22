@@ -20,7 +20,6 @@
 
 .page-header{
   min-height: 100vh;
-  max-height: 999px;
   padding: 0;
   color: $white-color;
   position: relative;
@@ -109,7 +108,7 @@
     }
 
     &[filter-color="orange"]{
-        @include linear-gradient(rgba($black-color,.20), rgba(224, 23, 3, 0.6));
+        @include linear-gradient(rgba($black-color,.20), rgba(25, 65, 125, 0.6));
     }
 }
 
