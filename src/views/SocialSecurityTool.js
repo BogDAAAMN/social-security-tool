@@ -98,7 +98,7 @@ class SocialSecurityTool extends React.Component {
 
         this.setState({waitingResult: true});
 
-        axios.post('https://social-security-tool-function.azurewebsites.net/SocialSecurity', {
+        axios.post('https://social-security-tool-function.azurewebsites.net/api/SocialSecurity?code=XLsiFV0n/eg2saa6wibILDRJTvKIErSMrWVVhEctA3xRwEPbm3LcmA==', {
             residency: this.state.residency,
             workplaces: this.state.workplaces
         }).then(res => {
@@ -116,6 +116,13 @@ class SocialSecurityTool extends React.Component {
                     result: `This case is not recognised yet!`
                 })
             }
+            this.toggleModal(true);
+            this.setState({waitingResult: false});
+        }).catch(error => {
+            console.log(error);
+            this.setState({
+                result: `There is a problem with the server. Please try again later.`
+            });
             this.toggleModal(true);
             this.setState({waitingResult: false});
         });
