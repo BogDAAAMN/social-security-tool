@@ -132,14 +132,24 @@ class SocialSecurityTool extends React.Component {
 
     render() {
         return (
-            <div className="page-header clear-filter" filter-color="blue">
+            <div className="page-header clear-filter" filter-color="orange">
                 <div className="content mt-5">
                     <Container>
                         <Col className="ml-auto mr-auto" md="6">
                             <Card className="pl-3 pr-3">
                                 <Form onSubmit={this.handleSubmit} className="form" method="">
                                     <CardHeader className="text-center">
-
+                                        <div className="logo-container">
+                                            <a
+                                                href="https://www.maastrichtuniversity.nl/about-um/faculties/law/research/law-and-tech-lab"
+                                                target="_blank"
+                                            >
+                                                <img
+                                                    alt="Maastricht Law and Tech Lab logo"
+                                                    src={require("../assets/img/lab.jpg")}
+                                                />
+                                            </a>
+                                        </div>
                                     </CardHeader>
 
                                     <CardBody>
@@ -263,7 +273,7 @@ class SocialSecurityTool extends React.Component {
                                         <Button
                                             block
                                             className="btn-round"
-                                            color="info"
+                                            color="primary"
                                             type="submit"
                                             size="lg"
                                         >
@@ -275,7 +285,7 @@ class SocialSecurityTool extends React.Component {
                         </Col>
                     </Container>
                 </div>
-                {/*<TransparentFooter />*/}
+                <TransparentFooter />
             </div>
         );
     }

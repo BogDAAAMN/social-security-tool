@@ -8,51 +8,41 @@ function TransparentFooter() {
   return (
     <footer className="footer">
       <Container>
-        <nav>
-          <ul>
-            <li>
-              <a
-                href="https://www.creative-tim.com?ref=nukr-transparent-footer"
-                target="_blank"
-              >
-                Creative Tim
-              </a>
-            </li>
-            <li>
-              <a
-                href="http://presentation.creative-tim.com?ref=nukr-transparent-footer"
-                target="_blank"
-              >
-                About Us
-              </a>
-            </li>
-            <li>
-              <a
-                href="http://blog.creative-tim.com?ref=nukr-transparent-footer"
-                target="_blank"
-              >
-                Blog
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div className="copyright" id="copyright">
-          © {new Date().getFullYear()}, Designed by{" "}
+        <div className="copyright text-black" id="copyright">
+          Developed by{" "}
           <a
-            href="https://www.invisionapp.com?ref=nukr-transparent-footer"
+            href="https://www.maastrichtuniversity.nl/about-um/faculties/law/research/law-and-tech-lab"
             target="_blank"
           >
-            Invision
+           Maastricht Law & Tech Lab
           </a>
-          . Coded by{" "}
+          {" "}at{" "}
           <a
-            href="https://www.creative-tim.com?ref=nukr-transparent-footer"
+            href="https://www.maastrichtuniversity.nl"
             target="_blank"
           >
-            Creative Tim
+            Maastricht University
           </a>
           .
+
+          {/*With the support of{" "}*/}
+          {/*<a*/}
+              {/*href="https://www.maastrichtuniversity.nl/ap.vandermei"*/}
+              {/*target="_blank"*/}
+          {/*>*/}
+            {/*Mr. Anne van der Mei*/}
+          {/*</a>*/}
+          {/*{" "}and{" "}*/}
+          {/*<a*/}
+              {/*href="https://www.creative-tim.com?ref=nukr-transparent-footer"*/}
+              {/*target="_blank"*/}
+          {/*>*/}
+            {/*Prof. Marjon Weerepas*/}
+          {/*</a>*/}
+          {/*.*/}
         </div>
+
+
       </Container>
     </footer>
   );
