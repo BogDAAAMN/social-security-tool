@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import {CountryDropdown, RegionDropdown, CountryRegionData} from 'react-country-region-selector';
 
 // reactstrap components
@@ -11,6 +12,7 @@ import {
     Form,
     FormGroup,
     Input,
+    Modal,
     Container,
     Col,
     Row
@@ -24,14 +26,16 @@ class SocialSecurityTool extends React.Component {
         super();
 
         this.state = {
+            modalOpen: false,
+            waitingResult: false,
+            result: "The result is not computed yet...",
             countries: [],
             residency: [{
-                country: "Netherlands",
-                more: ""
+                country: "Netherlands"
             }],
             workplaces: [{
                 location: "Netherlands",
-                employment: "Civil servant",
+                employment: "Employee",
                 hours: ""
             }]
         };
@@ -41,17 +45,24 @@ class SocialSecurityTool extends React.Component {
 
         // Bring in front nl, be, de and separator. Remove the duplicates
         this.state.countries = [...["Netherlands", "Belgium", "Germany", "---"], ...this.state.countries];
+
     }
 
     printtt = () => {
         console.log(this.state.workplaces);
+        console.log(this.state.residency);
+    };
+
+    toggleModal = (toggle) => {
+        toggle = toggle === true;
+        this.setState({modalOpen: toggle});
     };
 
     handleAddWorkplace = () => {
         this.setState({
             workplaces: this.state.workplaces.concat([{
                 location: "Netherlands",
-                employment: "Civil servant",
+                employment: "Employee",
                 hours: ""
             }])
         });
@@ -76,11 +87,41 @@ class SocialSecurityTool extends React.Component {
         this.setState({workplaces: newWorkplaces});
     };
 
+    handleResidencyChange = evt => {
+        this.setState({
+                residency: {country: evt.target.value}
+        });
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
+        this.setState({waitingResult: true});
 
+        axios.post('https://social-security-tool-function.azurewebsites.net/SocialSecurity', {
+            residency: this.state.residency,
+            workplaces: this.state.workplaces
+        }).then(res => {
+            console.log(res.data);
+            if(res.data.type === "country"){
+                this.setState({
+                    result: `You have to pay social security in ${res.data.country}!`
+                })
+            } else if (res.data.type === "legislation"){
+                this.setState({
+                    result: `For more information please cheack the legislation in ${res.data.country}!`
+                })
+            } else {
+                this.setState({
+                    result: `This case is not recognised yet!`
+                })
+            }
+            this.toggleModal(true);
+            this.setState({waitingResult: false});
+        });
     };
+
+
 
     render() {
         return (
@@ -95,6 +136,28 @@ class SocialSecurityTool extends React.Component {
                                     </CardHeader>
 
                                     <CardBody>
+                                        <Modal isOpen={this.state.modalOpen}>
+                                            <div className="modal-header">
+                                                <h5 className="modal-title">Social Security Tool</h5>
+                                                <button
+                                                    aria-label="Close"
+                                                    className="close"
+                                                    onClick={this.toggleModal}
+                                                    type="button"
+                                                >
+                                                    <span aria-hidden={true}>×</span>
+                                                </button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <p>{this.state.result}</p>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <Button color="secondary"  type="button" onClick={this.toggleModal}>
+                                                    Close
+                                                </Button>
+                                            </div>
+                                        </Modal>
+
 
                                         {/*RESIDENCY GROUP*/}
                                         <p className="text-black text-uppercase">Residency</p>
@@ -105,9 +168,9 @@ class SocialSecurityTool extends React.Component {
                                         >
                                             <label className="w-100 text-left text-black text-uppercase"
                                                    htmlFor="residency">
-                                                Residency Country
+                                                Country of Residence
                                             </label>
-                                            <Input ref="residency" type="select">
+                                            <Input ref="residency" type="select" onChange={this.handleResidencyChange}>
                                                 {
                                                     this.state.countries.map(country => {
                                                         return country === "---" ?
@@ -116,21 +179,6 @@ class SocialSecurityTool extends React.Component {
                                                     })
                                                 }
                                             </Input>
-                                        </FormGroup>
-                                        <FormGroup
-                                            className={
-                                                "no-border input-lg"
-                                            }
-                                        >
-                                            <label className="w-100 text-left text-black text-uppercase"
-                                                   htmlFor="more">
-                                                Another field
-                                            </label>
-                                            <Input
-                                                ref="more"
-                                                placeholder="More information"
-                                                type="text"
-                                            />
                                         </FormGroup>
 
                                         {/*WORK GROUP*/}
@@ -150,7 +198,7 @@ class SocialSecurityTool extends React.Component {
                                                 <FormGroup className={"no-border input-lg"}>
                                                     <label className="w-100 text-left text-black text-uppercase"
                                                            htmlFor="job-location">
-                                                        {`Location #${idx + 1}`}
+                                                        {`Location Employer #${idx + 1}`}
                                                     </label>
                                                     <Input
                                                         name="location"
@@ -173,16 +221,16 @@ class SocialSecurityTool extends React.Component {
                                                             <label
                                                                 className="w-100 text-left text-black text-uppercase"
                                                                 htmlFor="type">
-                                                                Employment
+                                                                Type
                                                             </label>
                                                             <Input
                                                                 name="employment"
                                                                 onChange={this.handleWorkplaceChange(idx)}
                                                                 type="select"
                                                             >
+                                                                <option>Employee</option>
                                                                 <option>Civil servant</option>
                                                                 <option>Self-employed</option>
-                                                                <option>Employee</option>
                                                             </Input>
                                                         </div>
                                                         <div className="col">
@@ -210,10 +258,9 @@ class SocialSecurityTool extends React.Component {
                                             className="btn-round"
                                             color="info"
                                             type="submit"
-                                            onClick={this.printtt}
                                             size="lg"
                                         >
-                                            Get Results
+                                            {this.state.waitingResult ? <i className="now-ui-icons loader_refresh spin text-white"/> : <span className={"text-uppercase"}>Get result</span>}
                                         </Button>
                                     </CardFooter>
                                 </Form>
