@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import {CountryDropdown, RegionDropdown, CountryRegionData} from 'react-country-region-selector';
+import {CountryRegionData, getUnion} from '../components/countries';
 
 // reactstrap components
 import {
@@ -28,13 +28,14 @@ class SocialSecurityTool extends React.Component {
         this.state = {
             modalOpen: false,
             waitingResult: false,
-            result: "The result is not computed yet...",
+            result: {},
             countries: [],
             residency: [{
                 country: "Netherlands"
             }],
             workplaces: [{
                 location: "Netherlands",
+                union: "EU",
                 employment: "Employee",
                 hours: "40"
             }]
@@ -48,11 +49,6 @@ class SocialSecurityTool extends React.Component {
 
     }
 
-    printtt = () => {
-        console.log(this.state.workplaces);
-        console.log(this.state.residency);
-    };
-
     toggleModal = (toggle) => {
         toggle = toggle === true;
         this.setState({modalOpen: toggle});
@@ -62,6 +58,7 @@ class SocialSecurityTool extends React.Component {
         this.setState({
             workplaces: this.state.workplaces.concat([{
                 location: "Netherlands",
+                union: "EU",
                 employment: "Employee",
                 hours: "40"
             }])
@@ -80,7 +77,7 @@ class SocialSecurityTool extends React.Component {
             if (idx !== sidx) return workplace;
 
             if (evt.target.name === "hours") return {...workplace, hours: evt.target.value};
-            if (evt.target.name === "location") return {...workplace, location: evt.target.value};
+            if (evt.target.name === "location") return {...workplace, location: evt.target.value, union: getUnion(evt.target.value)};
             if (evt.target.name === "employment") return {...workplace, employment: evt.target.value};
         });
 
@@ -103,25 +100,20 @@ class SocialSecurityTool extends React.Component {
             workplaces: this.state.workplaces
         }).then(res => {
             console.log(res.data);
-            if(res.data.type === "country"){
-                this.setState({
-                    result: `You have to pay social security in ${res.data.country}!`
-                })
-            } else if (res.data.type === "legislation"){
-                this.setState({
-                    result: `For more information please check the legislation in ${res.data.country}!`
-                })
-            } else {
-                this.setState({
-                    result: `This case is not recognised yet!`
-                })
-            }
+            this.setState({
+                result: {
+                    type: res.data.type,
+                    country: res.data.country
+                }
+            })
             this.toggleModal(true);
             this.setState({waitingResult: false});
         }).catch(error => {
             console.log(error);
             this.setState({
-                result: `There is a problem with the server. Please try again later.`
+                result: {
+                    type: 'error'
+                }
             });
             this.toggleModal(true);
             this.setState({waitingResult: false});
@@ -167,7 +159,17 @@ class SocialSecurityTool extends React.Component {
                                             </div>
                                             <div className="modal-body">
                                                 <p>
-                                                    {this.state.result}{" "}
+                                                    {
+                                                    this.state.result.type === "country" ? `You have to pay social security in `: 
+                                                    this.state.result.type === "legislation" ? `For more information please check the legislation in ` :
+                                                    this.state.result.type === "error" ? `There is a problem with the server. Please try again later` :
+                                                    `This case is not recognized yet`
+                                                    }
+
+                                                    {this.state.result.country === "Netherlands" ? `the ` : ``}
+
+                                                    <b>{this.state.result.country}</b>!
+
                                                     More information about the social security system can be found at{" "}
                                                     <a href="https://www.grensinfo.nl/gip/nl/index.jsp" target="_blank">Grensinfopunt</a>.
                                                 </p>
