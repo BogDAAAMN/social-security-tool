@@ -109,7 +109,7 @@ class SocialSecurityTool extends React.Component {
                 })
             } else if (res.data.type === "legislation"){
                 this.setState({
-                    result: `For more information please cheack the legislation in ${res.data.country}!`
+                    result: `For more information please check the legislation in ${res.data.country}!`
                 })
             } else {
                 this.setState({
