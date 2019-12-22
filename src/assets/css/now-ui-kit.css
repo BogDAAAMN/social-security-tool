@@ -1760,6 +1760,9 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     border-color: #979797;
     box-shadow: none; }
 
+.btn-primary:disabled {
+  cursor: not-allowed !important; }
+
 .btn-round {
   border-width: 1px;
   border-radius: 30px !important;
