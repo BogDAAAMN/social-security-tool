@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "location": "Create React App Sample",
+  "short_name": "Social Security Tool",
+  "location": "The tool that assists you in determining in which country you will be obliged to pay social security payments",
   "icons": [
     {
       "src": "favicon.ico",
