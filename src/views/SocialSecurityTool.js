@@ -125,23 +125,15 @@ class SocialSecurityTool extends React.Component {
     render() {
         return (
             <div className="page-header clear-filter" filter-color="orange">
-                <div className="content mt-5">
+                <div className="content mt-5 mb-0">
                     <Container>
                         <Col className="ml-auto mr-auto" md="6">
                             <Card className="pl-3 pr-3">
                                 <Form onSubmit={this.handleSubmit} className="form" method="">
                                     <CardHeader className="text-center">
-                                        <div className="logo-container">
-                                            <a
-                                                href="https://www.maastrichtuniversity.nl/about-um/faculties/law/research/law-and-tech-lab"
-                                                target="_blank"
-                                            >
-                                                <img
-                                                    alt="Maastricht Law and Tech Lab logo"
-                                                    src={require("../assets/img/lab.jpg")}
-                                                />
-                                            </a>
-                                        </div>
+                                    <p className="text-black mt-4">
+                                            The tool below assists you in determining in which country you will be obliged to pay social security payments. Provide the information in the fields and click on <b>Get Result</b>.
+                                            </p>
                                     </CardHeader>
 
                                     <CardBody>
@@ -267,6 +259,8 @@ class SocialSecurityTool extends React.Component {
                                                                 onChange={this.handleWorkplaceChange(idx)}
                                                                 placeholder={`eg: 40`}
                                                                 type="number"
+                                                                min = "0"
+                                                                max="100"
                                                             />
                                                         </div>
                                                     </Row>
